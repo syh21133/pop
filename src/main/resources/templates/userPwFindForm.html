@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="no-js" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>POP 아이디 찾기</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+</head>
+
+<body>
+
+<fieldset style="display: grid;">
+
+    <div style="background-color: #e45151; color: white; border: 1px solid lightgray; border-radius: 10px; margin-bottom: 5px">
+      <p style=" text-align: center">조회하신 [[${userId}]]님의 비밀번호를 변경해주세요</p>
+    </div>
+
+    <div>
+        <form action="userPwChange" method="POST" name="userPwChangeForm">
+            <input type="hidden" id="userId" name="userId" th:value="${userId}">
+
+            <div>
+
+                <div style="margin-bottom: 5px">
+                    <label>새로운 비밀번호*</label><br/>
+                    <input type="password" name="userPw" id="userPw" onkeyup="userPwRegexp()" class="typePw" placeholder="영문,숫자,특수문자를 혼합하여 8~16자로 입력해주세요"
+                           style="border: 1px solid lightgray; border-radius: 10px; width: 350px; height: 25px"><br/>
+                    <span id="spanPw" style="font-size: small"></span>
+
+                </div>
+
+                <div>
+                    <label>비밀번호 확인*</label><br/>
+                    <input type="password" class="typePw" id="checkPw" onkeyup="userPwCheck()" placeholder="비밀번호 확인"
+                           style="border: 1px solid lightgray; border-radius: 10px; width: 350px; height: 25px"><br/>
+                    <span id="spanPwCheck" style="font-size: small"></span>
+                </div>
+
+                <div>
+                    <button type="button" onclick="checkConfirm()" name="button" style="border: 1px solid lightgray; border-radius: 10px; background-color: #e45151; color: white">
+                        비밀번호 수정</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+</fieldset>
+
+</body>
+
+
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+
+<script>
+    // 비밀번호 정규식 체크
+    function userPwRegexp(){
+        let userPw = document.getElementById("userPw").value;
+        let spanPw = document.getElementById("spanPw");
+
+        let num = userPw.search(/[0-9]/);
+        let eng = userPw.search(/[a-z]/);
+        let spe = userPw.search(/[`~!@#$%^&*|\\\'\":;\/?]/);
+        let spc = userPw.search(/\s/);
+
+        // console.log("num : " + num + " , eng : " + eng + " , spe : " + spe);
+
+        if(userPw.length < 8 || userPw.length > 16){
+            spanPw.style.color = "#ff0000";
+            spanPw.innerHTML = "비밀번호는 8자리에서 16자리 이내로 입력해주세요.";
+            return false;
+
+        } else if(spc >= 0){
+            spanPw.style.color = "#ff0000";
+            spanPw.innerHTML = "비밀번호는 공백없이 입력해주세요.";
+            return false;
+
+        } else if(num < 0 || eng < 0 || spe < 0){
+            spanPw.style.color = "#ff0000";
+            spanPw.innerHTML = "영문, 숫자, 특수문자를 혼합하여 입력해주세요.";
+            return false;
+
+        } else {
+            spanPw.style.color = "#0000ff";
+            spanPw.innerHTML = "사용가능한 비밀번호 입니다.";
+            return true;
+        }
+    }
+
+    // 비번번호 일치여부 확인
+    function userPwCheck(){
+
+        let userPw = document.getElementById("userPw").value;
+        let checkPw = document.getElementById("checkPw").value;
+        let spanPwCheck = document.getElementById("spanPwCheck");
+
+        if(userPw == checkPw){
+            spanPwCheck.style.color = "#0000ff";
+            spanPwCheck.innerHTML = "비밀번호가 일치합니다.";
+            return true;
+        } else {
+            spanPwCheck.style.color = "#ff0000";
+            spanPwCheck.innerHTML = "비밀번호가 일치하지 않습니다.";
+            return false;
+        }
+    }
+
+    // 비밀번호 수정 버튼누를 경우 최종 확인
+    function checkConfirm(){
+
+        if(!userPwRegexp() || !userPwCheck()){
+            alert('비밀번호를 확인해주세요!');
+        } else {
+
+            let userId = $("#userId").val();
+            let userPw = $("#userPw").val();
+
+            location.href = "userPwChangeForm?userId=" + userId + "&userPw=" + userPw;
+
+        }
+
+    }
+
+</script>
+
+</html>

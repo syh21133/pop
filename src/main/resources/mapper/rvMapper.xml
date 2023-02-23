@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sss.pop.dao.rvDAO">
+    <select resultType="item" parameterType="int" id="idto">SELECT * FROM ITEM WHERE ITEMNUM = ${itemNum} </select>
+
+    <insert parameterType="review" id="rvWrite">INSERT INTO REVIEW VALUES (RV_SEQ.NEXTVAL, #{rvContent}, #{rvWriter},SYSDATE, #{rvGrade}, #{rvSeller}, #{rviNum}) </insert>
+
+</mapper>

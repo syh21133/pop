@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html class="no-js" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>POP 아이디 찾기</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+</head>
+<body>
+
+<fieldset style="display: grid;">
+
+    <div style="background-color: #e45151; color: white; border: 1px solid lightgray; border-radius: 10px; margin-bottom: 5px">
+      <p style=" text-align: center">조회하신 아이디 입니다</p>
+    </div>
+
+    <div>
+        <div>
+          <label class="nameLabel">아이디</label><br/>
+
+          <th:block th:each="list : ${userIdList}">
+              <input type="text" id="userName" name="userName" th:if="${#strings.substringBefore(list,'_')} ne 'kakao'" th:value="${list}"
+                     style="border: 1px solid lightgray; border-radius: 10px; height: 20px" readonly><br/>
+          </th:block>
+
+          <p th:if="${#lists.isEmpty(userIdList)}" style="color: red">입력하신 정보로 회원아이디를 찾을 수 없습니다.</p>
+
+        </div>
+    </div>
+
+</fieldset>
+
+</body>
+
+
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+
+</html>

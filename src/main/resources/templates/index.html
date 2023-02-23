@@ -1,0 +1,476 @@
+<!doctype html>
+<html class="no-js" lang="ko" xmlns:th="http://www.thymeleaf.org">
+    
+<!-- Mirrored from www.thetahmid.com/themes/xemart-v1.0/02-home-two.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 04 Jan 2023 02:06:51 GMT -->
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>XeMart - Ecommerce Template</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet">
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="/css/assets/bootstrap.min.css">
+
+		<!-- Fontawesome Icon -->
+        <link rel="stylesheet" href="/css/assets/font-awesome.min.css">
+
+		<!-- Animate Css -->
+        <link rel="stylesheet" href="/css/assets/animate.css">
+
+        <!-- Owl Slider -->
+        <link rel="stylesheet" href="/css/assets/owl.carousel.min.css">
+
+        <!-- Custom Style -->
+        <link rel="stylesheet" href="/css/assets/normalize.css">
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/assets/responsive.css">
+
+    </head>
+    <body>
+
+    <header th:replace="header.html :: header"></header>
+
+
+
+
+
+        <!-- Feature Product Area -->
+        <section class="feat-pro2">
+            <div class="container">
+                <h5 style="font-weight: bold; padding-top: 20px;">곧 마감되는 경매</h5>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12 padding-fix-l20">
+                                <div class="ftr-product">
+                                    <div class="tab-box d-flex justify-content-end">
+                                        <!-- Nav tabs -->
+
+                                    </div>
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade show active" id="all" role="tabpanel">
+                                            <div class="tab-slider owl-carousel">
+                                                <div th:each="auList : ${auList}" class="col-lg-4 col-md-6" style="display : inline">
+                                                    <div class="tab-item">
+                                                        <div class="tab-img">
+                                                            <a th:href="@{/auction/auView(auNum=${auList.auNum})}"><img class="main-img img-fluid" th:src="@{/auPhoto/{auPhoto}(auPhoto=${auList.auPhotoName})}" style="width:252.98px; height:252.98px;" alt="" ></a>
+                                                            <div class="layer-box">
+
+                                                                <a href='javascript:void(0);' class="it-fav" data-toggle="tooltip"
+                                                                   th:onclick="auLike([[${auList.auNum}]])" data-placement="left"
+                                                                   title="좋아요"><img th:id="'no.'+${auList.auNum}+'auimg'" src="/images/it-fav.png" alt=""></a>
+
+                                                                <div th:each="alList : ${alList}" th:if="${session.login ne null && auList.auNum eq alList.alItem}" >
+                                                                    <a href='javascript:void(0);' class="it-fav" data-toggle="tooltip"
+                                                                       th:onclick="auLike([[${auList.auNum}]])" data-placement="left"
+                                                                       title="좋아요"><img th:id="'no.'+${auList.auNum}+'auimg1'" src="/images/it-fav1.png" alt=""></a>
+                                                                </div>
+
+
+                                                                <a th:if="${session.login eq null}" href='javascript:void(0);' class="it-fav" data-toggle="tooltip"
+                                                                   data-placement="left" onclick="auLikeError()"
+                                                                   title="좋아요"><img src="/images/it-fav.png" alt=""></a>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-heading">
+                                                            <p><a th:href="@{/auction/auView(auNum=${auList.auNum})}" style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 230px; font-size : 20px">[[${auList.auName}]]</a></p>
+                                                        </div>
+                                                        <div class="img-content d-flex justify-content-between" style="text-align: justify;">
+                                                            <div>
+                                                                <ul class="list-unstyled list-inline price">
+                                                                    <li class="list-inline-item" style="padding-bottom : 6px; font-size : 18px">[[${auList.auPrice}]]원</li>
+                                                                    <li class="list-inline-item"></li>
+                                                                </ul>
+
+                                                                <ul class="list-unstyled list-inline fav">
+                                                                    <li class="list-inline-item">[[${auList.aucRegion}]]</li>
+                                                                </ul>
+                                                            </div>
+                                                            <div style="text-align: right;">
+                                                                <ul class="list-unstyled list-inline fav" style="margin-bottom: 10px; margin-top:2px;" >
+                                                                    <li class="list-inline-item" >[[${auList.aucDate}]] 마감</li>
+                                                                </ul>
+                                                                <ul class="list-unstyled list-inline fav">
+                                                                    <li class="list-inline-item">좋아요수 [[${auList.auLike}]]</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Feature Product Area -->
+    <section class="feat-pro2">
+        <div class="container">
+            <h5 style="font-weight: bold;">최근 올라온 물품</h5>
+            <div class="row">
+
+
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12 padding-fix-l20">
+                            <div class="ftr-product">
+                                <div class="tab-box d-flex justify-content-end">
+                                    <!-- Nav tabs -->
+
+                                </div>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="all" role="tabpanel">
+                                        <div class="tab-slider owl-carousel">
+
+
+                                            <div th:each="itemList : ${itemList}" class="col-lg-4 col-md-6"
+                                                 style="display : inline">
+                                                <div class="tab-item">
+                                                    <div class="tab-img">
+                                                        <a th:href="@{itemView(itemNum=${itemList.itemNum})}"><img class="main-img img-fluid"
+                                                             th:src="@{/itemPhoto/{itemPhoto}(itemPhoto=${itemList.itemPhotoName})}" th:href="@{itemView(itemNum=${itemList.itemNum})}"style="width:252.98px; height:252.98px;"
+                                                             alt="" onerror="this.src='/images/noimg.jpg';" ></a>
+                                                        <div class="layer-box">
+
+                                                            <a href='javascript:void(0);' class="it-fav" data-toggle="tooltip" th:if="${session.login ne null}"
+                                                               th:onclick="itemLike([[${itemList.itemNum}]])" data-placement="left"
+                                                               title="좋아요"><img th:id="'no.'+${itemList.itemNum}+'img'" src="/images/it-fav.png" alt=""></a>
+
+                                                            <div th:each="ilList : ${ilList}" th:if="${session.login ne null && itemList.itemNum eq ilList.ilItem}" >
+                                                                <a href='javascript:void(0);' class="it-fav" data-toggle="tooltip"
+                                                                   th:onclick="itemLike([[${itemList.itemNum}]])" data-placement="left"
+                                                                   title="좋아요"><img th:id="'no.'+${itemList.itemNum}+'img1'" src="/images/it-fav1.png" alt=""></a>
+                                                            </div>
+
+                                                            <a th:if="${session.login eq null}" href='javascript:void(0);' class="it-fav" data-toggle="tooltip"
+                                                               data-placement="left" onclick="itemLikeError()"
+                                                               title="좋아요"><img src="/images/it-fav.png" alt=""></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-heading">
+                                                        <p><a th:href="@{itemView(itemNum=${itemList.itemNum})}"
+                                                              style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 230px; font-size : 20px">[[${itemList.itemName}]]</a></p>
+                                                    </div>
+                                                    <div class="img-content d-flex justify-content-between" style="text-align: justify;">
+                                                        <div>
+                                                            <ul class="list-unstyled list-inline price">
+                                                                <li class="list-inline-item"
+                                                                    style="padding-bottom : 6px; font-size : 18px">[[${itemList.itemPrice}]]원
+                                                                </li>
+                                                                <li class="list-inline-item"></li>
+                                                            </ul>
+                                                            <ul class="list-unstyled list-inline fav">
+                                                                <li class="list-inline-item">[[${itemList.itRegion}]]</li>
+                                                            </ul>
+
+                                                        </div>
+                                                        <div style="text-align: right;">
+                                                            <ul class="list-unstyled list-inline fav" style="margin-bottom: 10px; margin-top:2px;">
+                                                                <li class="list-inline-item">[[${itemList.itDate}]]</li>
+                                                            </ul>
+                                                            <ul class="list-unstyled list-inline fav">
+
+                                                                <li class="list-inline-item">좋아요수[[${itemList.itemLike}]]</li>
+                                                            </ul>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+        <!-- Brand area 2 -->
+<!--        <section class="brand2">-->
+<!--            <div class="container">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-md-12">-->
+<!--                        <div class="tp-bnd owl-carousel">-->
+<!--                            <div class="bnd-items">-->
+<!--                                <a href="#"><img src="/images/brand-01.png" alt="" class="img-fluid"></a>-->
+<!--                            </div>-->
+<!--                            <div class="bnd-items">-->
+<!--                                <a href="#"><img src="/images/brand-02.png" alt="" class="img-fluid"></a>-->
+<!--                            </div>-->
+<!--                            <div class="bnd-items">-->
+<!--                                <a href="#"><img src="/images/brand-03.png" alt="" class="img-fluid"></a>-->
+<!--                            </div>-->
+<!--                            <div class="bnd-items">-->
+<!--                                <a href="#"><img src="/images/brand-04.png" alt="" class="img-fluid"></a>-->
+<!--                            </div>-->
+<!--                            <div class="bnd-items">-->
+<!--                                <a href="#"><img src="/images/brand-05.png" alt="" class="img-fluid"></a>-->
+<!--                            </div>-->
+<!--                            <div class="bnd-items">-->
+<!--                                <a href="#"><img src="/images/brand-06.png" alt="" class="img-fluid"></a>-->
+<!--                            </div>-->
+<!--                            <div class="bnd-items">-->
+<!--                                <a href="#"><img src="/images/brand-07.png" alt="" class="img-fluid"></a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </section>-->
+        <!-- End Brand area 2 -->
+
+        <!-- Footer Area -->
+        <section class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="f-contact">
+                            <h5>Contact Info</h5>
+                            <div class="f-add">
+                                <i class="fa fa-map-marker"></i>
+                                <span>Address :</span>
+                                <p>795 South Park Avenue, New York, NY USA 94107</p>
+                            </div>
+                            <div class="f-email">
+                                <i class="fa fa-envelope"></i>
+                                <span>Email :</span>
+                                <p>enquery@domain.com</p>
+                            </div>
+                            <div class="f-phn">
+                                <i class="fa fa-phone"></i>
+                                <span>Phone :</span>
+                                <p>+1 908 875 7678</p>
+                            </div>
+                            <div class="f-social">
+                                <ul class="list-unstyled list-inline">
+                                    <li class="list-inline-item"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li class="list-inline-item"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li class="list-inline-item"><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                                    <li class="list-inline-item"><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                    <li class="list-inline-item"><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="f-cat">
+                            <h5>Categories</h5>
+                            <ul class="list-unstyled">
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Clothing</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Electronics</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Smartphones & Tablets</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Computer & Office</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Home Appliances</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Leather & Shoes</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Kids & Babies</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="f-link">
+                            <h5>Quick Links</h5>
+                            <ul class="list-unstyled">
+                                <li><a href="#"><i class="fa fa-angle-right"></i>My Account</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Shopping Cart</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>My Wishlist</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Checkout</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Order History</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Log In</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Our Locations</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="f-sup">
+                            <h5>Support</h5>
+                            <ul class="list-unstyled">
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Contact Us</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Payment Policy</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Return Policy</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Privacy Policy</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Frequently asked questions</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Terms & Condition</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i>Delivery Info</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="footer-btm">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Copyright &copy; 2020 | Designed With <i class="fa fa-heart"></i> by <a href="#" target="_blank">SnazzyTheme</a></p>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <img src="/images/payment.png" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+            <div class="back-to-top text-center">
+                <img src="/images/backtotop.png" alt="" class="img-fluid">
+            </div>
+        </section>
+        <!-- End Footer Area -->
+
+
+        <!-- =========================================
+        JavaScript Files
+        ========================================== -->
+
+        <!-- jQuery JS -->
+        <script src="/js/assets/vendor/jquery-1.12.4.min.js"></script>
+
+        <!-- Bootstrap -->
+        <script src="/js/assets/popper.min.js"></script>
+        <script src="/js/assets/bootstrap.min.js"></script>
+
+        <!-- Owl Slider -->
+        <script src="/js/assets/owl.carousel.min.js"></script>
+
+        <!-- Wow Animation -->
+        <script src="/js/assets/wow.min.js"></script>
+
+        <!-- Price Filter -->
+        <script src="/js/assets/price-filter.js"></script>
+
+        <!-- Mean Menu -->
+        <script src="/js/assets/jquery.meanmenu.min.js"></script>
+
+        <!-- Custom JS -->
+        <script src="/js/plugins.js"></script>
+        <script src="/js/custom.js"></script>
+
+    <script>
+        function itemLikeError(){
+            alert('로그인 후 이용해주세요');
+        }
+
+        function itemLike(itemNum) {
+            console.log(itemNum);
+            $.ajax({
+                type: "Post",
+                url: "itemLike",
+                data: {
+                    "ilItem": itemNum,
+                    "ilUser": userId
+                },
+                data_type: "json",
+                success: function (result) {
+                    console.log(result);
+                    itemLikePrint(result,itemNum);
+
+                },
+                error: function () {
+                    alert('좋아요 함수 통신 실패');
+                }
+            });
+        }
+        // 좋아요 출력
+        function itemLikePrint(result,itemNum) {
+            console.log(result);
+
+            let output = "";
+
+
+
+            if (result == 'Y') {
+                /*output += "<a href='javascript:void(0);' class='it-fav' data-toggle='tooltip' data-placement='left' title='좋아요' onclick=\"itemLike("+itemNum+")\">";
+                output += "<img src='/images/it-fav1.png' alt=''></a>";*/
+                document.getElementById("no."+itemNum+"img").src="/images/it-fav1.png"
+                document.getElementById("no."+itemNum+"img1").src="/images/it-fav1.png"
+
+
+            } else {
+                /*output += "<a href='javascript:void(0);' class='it-fav' data-toggle='tooltip' data-placement='left' title='좋아요' onclick=\"itemLike("+itemNum+")\">";
+                output += "<img src='/images/it-fav.png' alt=''></a>";*/
+                document.getElementById("no."+itemNum+"img").src="/images/it-fav.png"
+                document.getElementById("no."+itemNum+"img1").src="/images/it-fav.png"
+
+            }
+
+            /*document.getElementById("no."+itemNum+"like").innerHTML = output;*/
+        }
+
+
+        function auLikeError(){
+            alert('로그인 후 이용해주세요');
+        }
+
+        function auLike(itemNum) {
+            console.log(itemNum);
+            $.ajax({
+                type: "Post",
+                url: "/auction/auLike",
+                data: {
+                    "alItem": itemNum,
+                    "alUser": userId
+                },
+                data_type: "json",
+                success: function (result) {
+                    console.log(result);
+                    auLikePrint(result,itemNum);
+
+                },
+                error: function () {
+                    alert('좋아요 함수 통신 실패');
+                }
+            });
+        }
+        // 좋아요 출력
+        function auLikePrint(result,auNum) {
+            console.log(result);
+
+
+            if (result == 'Y') {
+                /*output += "<a href='javascript:void(0);' class='it-fav' data-toggle='tooltip' data-placement='left' title='좋아요' onclick=\"itemLike("+itemNum+")\">";
+                output += "<img src='/images/it-fav1.png' alt=''></a>";*/
+                document.getElementById("no."+auNum+"auimg").src="/images/it-fav1.png"
+                document.getElementById("no."+auNum+"auimg1").src="/images/it-fav1.png"
+
+
+            } else {
+                /*output += "<a href='javascript:void(0);' class='it-fav' data-toggle='tooltip' data-placement='left' title='좋아요' onclick=\"itemLike("+itemNum+")\">";
+                output += "<img src='/images/it-fav.png' alt=''></a>";*/
+                document.getElementById("no."+auNum+"auimg").src="/images/it-fav.png"
+                document.getElementById("no."+auNum+"auimg1").src="/images/it-fav.png"
+
+            }
+
+            /*document.getElementById("no."+itemNum+"like").innerHTML = output;*/
+        }
+    </script>
+
+    </body>
+
+<!-- Mirrored from www.thetahmid.com/themes/xemart-v1.0/02-home-two.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 04 Jan 2023 02:06:54 GMT -->
+</html>

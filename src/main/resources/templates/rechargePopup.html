@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/css/assets/bootstrap.min.css">
+
+    <!-- Fontawesome Icon -->
+    <link rel="stylesheet" href="/css/assets/font-awesome.min.css">
+
+    <!-- Animate Css -->
+    <link rel="stylesheet" href="/css/assets/animate.css">
+
+    <!-- Owl Slider -->
+    <link rel="stylesheet" href="/css/assets/owl.carousel.min.css">
+
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="/css/assets/normalize.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/assets/responsive.css">
+</head>
+<style>
+    html, body {
+        background-color: rgb(64, 68, 74);
+        height: 100%;
+    }
+
+
+    div.left {
+        width: 30%;
+        height: 100%;
+        float: left;
+        box-sizing: border-box;
+        background: rgb(36, 40, 49);;
+        display: flex;
+        flex-direction: row;
+        padding: 20px 10px 20px 10px;
+    }
+
+    div.right {
+        width: 70%;
+        height: 100%;
+        float: right;
+        box-sizing: border-box;
+        background: rgb(64, 68, 74);
+        padding: 20px 10px 20px 10px;
+    }
+
+    .toggle3 input[type=radio] {
+        display: none;
+    }
+
+    .toggle3 input[type=radio] + label {
+        color: #e0e0e0;
+        font-size: 5em;
+        filter: brightness(40%);
+        cursor: pointer;
+    }
+
+    .toggle3 input[type=radio]:checked + label {
+        color: #000;
+        filter: brightness(100%);
+        cursor: pointer;
+    }
+
+    select {
+        width: 150px;
+        padding: .0em .5em;
+        border: 2px solid rgb(64, 68, 74);
+        font-family: inherit;
+        background: url('/images/arrow.jpg') no-repeat 95% 40%;
+        background-size: 20px;
+        border-radius: 0px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        color: white;
+        margin-bottom: 5px;
+        height: 30px;
+        font-size:18px
+    }
+
+    select option {
+        background: rgb(36, 40, 49);
+        color: #fff;
+        padding: 3px 0;
+        font-size: 20px;
+    }
+
+    select::-ms-expand {
+        display: none;
+    }
+    input[type=text] {
+        width: 150px;
+        height: 33px;
+        font-size: 20px;
+        border: 2px solid rgb(64, 68, 74);
+        border-radius: 0px;
+        outline: none;
+        font-family: inherit;
+        padding-right: 10px;
+        text-align: right;
+        background-color: rgb(36, 40, 49);
+        color: white;
+    }
+
+</style>
+<body>
+
+
+<div style="height: 100%; padding : 0px 50px 0px 0px">
+
+
+    <div class="left">
+        <div class="row">
+            <div class="col-md-12">
+
+                <span style="color:white; font-size: 15px;  font-weight: bold; margin-left: 10px;" >캐시충전</span> <br/><br/>
+                <form method="post" action="/kakaoPay" id="cashRecharge" name="cashRecharge">
+                    <input type="hidden" name="userId" id="userId" th:value="${session.login.userId}" style="">
+                    <div class="form">
+                            <select name="price1">
+                                <option value="etc">직접입력</option>
+                                <option value="1000">1000</option>
+                                <option value="3000">3000</option>
+                                <option value="5000">5000</option>
+                                <option value="10000">10000</option>
+                                <option value="30000">30000</option>
+                                <option value="50000">50000</option>
+                            </select>
+                        <br/>
+                        <span style="color:white; font-size: 20px"><input type="text" name="price" maxlength="50" value=""
+                                                                  placeholder="금액입력" required> 원</span>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="right" style="padding-left: 30px; padding-top: 100px;">
+        <div class="toggle3">
+            <input type="radio" id="kakaopay" name="select" value="kakaopay">
+            <label for="kakaopay"><img src="/images/kakaopay.png"></label>
+        </div>
+
+        <div style="position: absolute; right: 50px; bottom: 50px;">
+            <button type="button" onclick="cashSubmit()">카카오페이로 결제하기</button>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+        crossorigin="anonymous"></script>
+<script>
+
+    $("select[name=price1]").on("change", function () {
+        var $price = $(this).closest(".form").find("input[name=price]");
+        if ($(this).val() == "etc") {
+            $price.val('');
+            $price.prop("readonly", false);
+
+        } else {
+            $price.val($(this).val());
+            $price.prop("readonly", true);
+        }
+    });
+
+    function cashSubmit() {
+
+        var select = $("input[type=radio][name=select]:checked").val();
+        console.log(select)
+
+
+        if (select == 'kakaopay') {
+            document.cashRecharge.submit();
+        }
+
+    }
+
+</script>
+
+
+<!-- jQuery JS -->
+<script src="/js/assets/vendor/jquery-1.12.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="/js/assets/popper.min.js"></script>
+<script src="/js/assets/bootstrap.min.js"></script>
+
+<!-- Owl Slider -->
+<script src="/js/assets/owl.carousel.min.js"></script>
+
+<!-- Wow Animation -->
+<script src="/js/assets/wow.min.js"></script>
+
+<!-- Price Filter -->
+<script src="/js/assets/price-filter.js"></script>
+
+<!-- Mean Menu -->
+<script src="/js/assets/jquery.meanmenu.min.js"></script>
+
+<!-- Custom JS -->
+<script src="/js/plugins.js"></script>
+<script src="/js/custom.js"></script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html class="no-js" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>POP 아이디 찾기</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+</head>
+
+<th:block th:if="${message ne null}">
+    <script th:inline="javascript" th:if="${message eq 'fail'}">
+      alert('일치하는 회원 정보가 없습니다.');
+    </script>
+
+    <script th:inline="javascript" th:if="${message eq 'changeFail'}">
+        alert('비밀번호 변경에 실패했습니다.');
+    </script>
+</th:block>
+
+
+<body>
+
+<fieldset style="display: grid;">
+    <div style="background-color: #e45151; color: white; border: 1px solid lightgray; border-radius: 15px; margin-bottom: 5px">
+      <p style="text-align: center">비밀번호를 찾기를 위해 아이디와 이메일을 입력해주세요</p>
+    </div>
+
+    <div>
+      <form action="userPwFindCheck" method="POST" name="userPwFindForm">
+        <div style="margin-bottom: 5px">
+          <label class="nameLabel">아이디*</label><br/>
+          <input type="text" id="userId" name="userId" placeholder="아이디 입력" style="border: 1px solid lightgray; border-radius: 10px; height: 20px">
+        </div>
+
+        <div>
+          <label>전화번호*<input type="button" value="인증번호 발송" onclick="userPhoneCheck()" style="border-radius: 10px; border: 1px solid lightgray; background-color: #e45151; height: 20px; color: white"/>
+          </label>
+
+          <div>
+            <input type="text" name="userPhone" id="userPhone" placeholder="하이픈(-), 공백없이 입력" style="border-radius: 10px; border: 1px solid lightgray; height: 20px">
+          </div>
+
+          <span id="confPhone" style="color: gray"></span>
+          <span id="confPhone2"></span>
+          <span id="confPhone3"></span>
+        </div>
+
+      </form>
+    </div>
+</fieldset>
+
+</body>
+
+
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+
+<script>
+
+  let phoneUuid = "";
+
+  // 전화번호 인증 번호 발송
+  function userPhoneCheck() {
+
+    let userPhone = document.querySelector('#userPhone');
+
+    userPhone.setAttribute('readonly', true);
+
+    if ($("#userPhone").val() != "") {
+      $("#confPhone").text('인증번호 발송 중 입니다. 잠시만 기다려주세요.');
+      $("#confPhone3").text('>');
+      delay = setInterval(function () {
+        $("#confPhone2").append('=');
+
+        let str = $("#confPhone").text();
+
+        if (str.length >= 11) {
+          $("#confPhone2").text('');
+        }
+      }, 500);
+
+      let userPhone = $("#userPhone").val();
+
+      $.ajax({
+        type: "POST",
+        url: "userPhoneCheck",
+        data: {
+          "userPhone": userPhone
+        },
+        dataType: "text",
+        success: function (uuid) {
+          phoneUuid = uuid;
+          clearInterval(delay);
+          $("#confPhone2").html("");
+          $("#confPhone3").html("");
+          $("#confPhone").html("<br/><div class='d-flex'><input type='text' id='phoneUuidCheck' placeholder='발급받은 인증 번호를 입력' style='border-radius: 15px; border: 1px solid lightgray;'/>"
+                  + " <input type='button' value='인증' onclick='userPhoneCheck2()'" +
+                  "style=\"border-radius: 15px; border: 1px solid black; background-color: #e45151; color: white; \"/></div>");
+        },
+        error: function () {
+          clearInterval(delay);
+          alert('전화번호를 입력하시거나 인증번호 발송 버튼을 다시 눌러주십시오');
+        }
+
+      });
+    }
+  }
+
+  let userPhoneCheck2Bool = false;
+
+  // 전화번호 인증 여부 확인
+  function userPhoneCheck2() {
+
+    let uuidCheck = $("#phoneUuidCheck").val();
+
+    if (uuidCheck == null || uuidCheck == "") {
+    } else if (phoneUuid == uuidCheck) {
+      alert('인증성공!');
+      userPhoneCheck2Bool = true;
+      userPwFindForm();
+    } else {
+      alert('인증실패!');
+      userPhoneCheck2Bool = false;
+    }
+    return userPhoneCheck2Bool;
+  }
+
+  // 인증 후 비밀번호를 변경할 팝업 생성
+  function userPwFindForm() {
+
+      // var popupWidth = 550;
+      // var popupHeight = 230;
+      //
+      // var popupX = (window.screen.width / 2) - (popupWidth / 2);  // 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+      // var popupY = (window.screen.height / 2) - (popupHeight / 2); // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+
+      let userId = $("#userId").val();
+      let userPhone = $("#userPhone").val();
+
+      // window.close();
+
+      // let popup = window.open("userPwFindForm?userId=" + userId + "&userPhone=" + userPhone, "", 'height=' + popupHeight + ', width=' + popupWidth + ', left=' + popupX + ', top=' + popupY);
+
+      if(userId.substr(0,6) == "kakao_"){
+          alert('일반회원 전용 서비스입니다.');
+      } else {
+          location.href = "userPwFindForm?userId=" + userId + "&userPhone=" + userPhone;
+      }
+
+  }
+  /////////////////////////////////////////////////////////////////////////////////
+
+
+</script>
+
+</html>
